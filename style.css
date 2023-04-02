@@ -1,0 +1,28 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+*
+{
+    box-sizing: border-box;
+}
+img
+{
+    width: 100%;
+}
+.row
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+canvas
+{
+    background: url('wallbackground.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 70px;
+}
