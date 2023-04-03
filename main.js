@@ -65,7 +65,8 @@ const bar = {
 
 function drawBar() {
     //cxt.fillStyle = "" color
-    
+  
+
     cxt.fillRect(bar.x, bar.y, bar.width, bar.height)
 }
 function update() {
@@ -99,19 +100,6 @@ document.addEventListener("keyup", function(event){
         left = false
     }
 })
-path()
-function loop() {
-    const dedX = bar.x
-    const dedY = bar.y
-    update()
-    cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
-   // cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
-    cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
-    
-    drawBar()
-    
-    requestAnimationFrame(loop)
-}
 
 
 loop()
@@ -165,4 +153,36 @@ const brick = {
     }
     drawBricks ();
     
+    
+    
+    
+    path()
+
+    var dx = 0
+    function loop() {
+
+        const dedX = bar.x
+        const dedY = bar.y
+        
+        update()
+        dx = dedX-bar.x
+        if(dx!==0){cxt.clearRect(dedX,dedY, BAR_W, BAR_H)}
+        cxt.fillStyle = "rgba(0,0,0,0.3)"
+        cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
+        //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
+        //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
+        
+        
+        
+        
+        
+
+        drawBricks()
+        drawBar()
+        
+        requestAnimationFrame(loop)
+    }
+    
+    
+    loop()
     
