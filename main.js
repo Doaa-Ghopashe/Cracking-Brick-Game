@@ -40,9 +40,9 @@ cxt.beginPath();
 
     cxt.lineWidth = 2;
     //creating a fully arc with determining its position in the canvas
-    cxt.arc(100,frameWidth-50,15,0,angle);
+    cxt.arc(100,frameHeight - 50,15,0,angle);
     //put a background for this arc using the image we create above
-    cxt.fillStyle = ballPattern;
+    cxt.fillStyle = "rgba(255,255,255,0.9)";
 
     cxt.fill();
     
