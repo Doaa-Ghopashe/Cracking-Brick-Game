@@ -10,8 +10,8 @@ ballPattern;
 
 //constants
 const angle = 2*Math.PI;
-const BAR_W = 70
-const BAR_H = 10
+const BAR_W = 200
+const BAR_H = 20
 
 //variables
 let left = false
