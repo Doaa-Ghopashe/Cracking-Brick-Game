@@ -115,3 +115,54 @@ function loop() {
 
 
 loop()
+
+////////////////////// bricks create //////////////////////
+
+
+
+const brick = {
+    row : 5,
+    column : 10,
+    width : 55,
+    height : 20,
+    offSetLeft :30,
+    offSetTop :30,
+    marginTop : 40,
+    fillColor :'black',
+    strokeColor : 'white'
+    }
+    
+    let bricks =[];
+    
+    function createBricks(){
+        for(let r=0 ; r< brick.row ; r++){
+            bricks[r]=[];
+            for(let c=0 ; c< brick.column ; c++){
+                bricks[r][c]={
+                    x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
+                    y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
+                    status : true
+    
+                }
+            }
+        }
+    }
+    
+    createBricks();
+    
+    
+    function drawBricks (){
+        for(let r=0 ; r< brick.row ; r++){
+            for(let c=0 ; c< brick.column ; c++){
+               if(bricks[r][c].status){
+                  cxt.fillStyle = brick.fillColor;
+                  cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
+                  cxt.strokeStyle = brick.strokeColor;
+                  cxt.strokeRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
+               }
+            }
+        }
+    }
+    drawBricks ();
+    
+    
