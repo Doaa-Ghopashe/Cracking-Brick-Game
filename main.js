@@ -149,8 +149,8 @@ const brick = {
         cxt.arc(ball.x,ball.y,ball.radius,0,angle);
         cxt.fillStyle = "red";
         cxt.fill();
-        cxt.strokeStyle = "white";
-       // cxt.stroke();
+        cxt.strokeStyle = "#000";
+       cxt.stroke();
         cxt.lineWidth = 2; 
         cxt.closePath();
         }
@@ -159,7 +159,24 @@ const brick = {
             ball.y += ball.dy;
             
         }
-        
+        function balwalCol() {
+            if (ball.x + ball.radius > frameWidth || ball.x - ball.radius < 0) {
+              ball.dx = -ball.dx;
+            }
+            if (ball.y - ball.radius <= 0) {
+              ball.dy = -ball.dy;
+            }
+            if (ball.y + ball.radius >= frameHeight) {
+            //   life--;
+              resetBall();
+            }
+          }
+          function resetBall() {
+            ball.x = frameWidth / 2;
+            ball.y = bar.y - ball.radius;
+            ball.dx = 3 * (Math.random() * 2 - 1);
+            ball.dy = -3;
+          }
         function draw(){
             
         }
@@ -176,7 +193,7 @@ const brick = {
         const ballDedY = ball.y
         moveBall()
         update()
-        cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
+        // cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
         cxt.fillStyle = "rgba(0,0,0,0.3)"
         cxt.fillRect(ballDedX - (ball.radius )  , ballDedY - (ball.radius ) , ball.radius*2  , ball.radius*2  ) //to add the gray color to fit the background
         dx = dedX-bar.x
@@ -188,12 +205,11 @@ const brick = {
         //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
         
         
-        
-       
+        cxt.clearRect(0, 0, frameWidth, frameHeight);
+        balwalCol()
         drawBall()
         drawBricks()
         drawBar()
-       
         requestAnimationFrame(loop)
     }
     
