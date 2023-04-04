@@ -12,7 +12,7 @@ ballPattern;
 const angle = 2*Math.PI;
 const BAR_W = 200
 const BAR_H = 20
-
+const ballRadius =8;
 //variables
 let left = false
 let right = false
@@ -40,21 +40,7 @@ cxt.beginPath();
 
 cxt.closePath();
 }
-//creating the ball with styling
-cxt.beginPath();
-    
-    cxt.strokeStyle = "rgba(0,0,0,0.2)";
 
-    cxt.lineWidth = 2;
-    //creating a fully arc with determining its position in the canvas
-    cxt.arc(100,frameHeight - 50,15,0,angle);
-    //put a background for this arc using the image we create above
-    cxt.fillStyle = "rgba(255,255,255,0.9)";
-
-    cxt.fill();
-    
-    cxt.stroke();
-cxt.closePath();
 //start of my code
 const bar = {
     x: frameWidth/2 - BAR_W/2, //position on x
@@ -102,9 +88,7 @@ document.addEventListener("keyup", function(event){
 })
 
 
-loop()
-
-////////////////////// bricks create //////////////////////
+///////////////////////////////// create  bricks ///////////////////////////////////////////
 
 
 
@@ -136,7 +120,7 @@ const brick = {
         }
     }
     
-    createBricks();
+    
     
     
     function drawBricks (){
@@ -151,13 +135,37 @@ const brick = {
             }
         }
     }
-    drawBricks ();
-    
-    
-    
-    
-    path()
+    ////////////// ///////////////////  create Ball //////////////////////////////////////
+    const ball = {
+        x: frameWidth/2,
+        y: bar.y - ballRadius,
+        radius:ballRadius,
+        speed:5,
+        dx:3,
+        dy:-3
+    }
+    function drawBall(){
+        cxt.beginPath();
+        cxt.arc(ball.x,ball.y,ball.radius,0,angle);
+        cxt.fillStyle = "red";
+        cxt.fill();
+        cxt.strokeStyle = "white";
+        cxt.stroke();
+        cxt.lineWidth = 2; 
+        cxt.closePath();
+        }
+        function moveBall(){
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+            
+        }
+        function draw(){
+            
+        }
+        
 
+    path()
+    createBricks();
     var dx = 0
     function loop() {
 
@@ -174,12 +182,12 @@ const brick = {
         
         
         
-        
-        
-
+       
+        drawBall()
+        moveBall()
         drawBricks()
         drawBar()
-        
+       
         requestAnimationFrame(loop)
     }
     
