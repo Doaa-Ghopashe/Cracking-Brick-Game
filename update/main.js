@@ -1,25 +1,29 @@
 //define variables
-let gameFrame = document.getElementById("wall"), 
-cxt = gameFrame.getContext('2d'),
+let gameFrame = document.getElementById("wall"); 
+cxt = gameFrame.getContext('2d');
 
-frameWidth = gameFrame.width,
-frameHeight = gameFrame.height,
+frameWidth = gameFrame.width;
+frameHeight = gameFrame.height;
 
-img=new Image(),
-ballPattern;
+// img=new Image(),
+// ballPattern;
 
 //constants
 const angle = 2*Math.PI;
-const BAR_W = 200
-const BAR_H = 20
+const BAR_W = 70
+const BAR_H = 10
+const score = 0;
+const scoreUnit = 10;
 const ballRadius =8;
+const life = 4;
+
 //variables
 let left = false
 let right = false
 
 //assign the url of the metal ball to the image src and use this img to create pattern for the arc
-img.src= "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Shiny_steel_ball.png/937px-Shiny_steel_ball.png",
-ballPattern = cxt.createPattern(img,'repeat');
+// img.src= "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Shiny_steel_ball.png/937px-Shiny_steel_ball.png",
+// ballPattern = cxt.createPattern(img,'repeat');
 
 //creating the frame of the canvas
 
@@ -50,9 +54,8 @@ const bar = {
 }
 
 function drawBar() {
-    //cxt.fillStyle = "" color
-  
-
+    cxt.fillStyle = 'black';
+    
     cxt.fillRect(bar.x, bar.y, bar.width, bar.height)
 }
 function update() {
@@ -86,9 +89,59 @@ document.addEventListener("keyup", function(event){
         left = false
     }
 })
+ ///  ball  ///
+const ball = {
+    x: frameWidth/2,
+    y: bar.y - ballRadius,
+    radius:ballRadius,
+    speed:5,
+    dx:3,
+    dy:-3
+}
+function drawBall(){
+    cxt.beginPath();
+        cxt.strokeStyle = "white";
+        cxt.lineWidth = 2;
+        //creating a fully arc with determining its position in the canvas
+        
+        //put a background for this arc using the image we create above
+        cxt.fillStyle = "red";
+        cxt.arc(ball.x,ball.y,ball.radius,0,angle);
+        cxt.fill();
+        cxt.stroke();
+    cxt.closePath();
+    }
+
+function moveBall(){
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+    
+}
+
+function ballWallCollision(){
+    if(ball.x + ball.radius > frameWidth || ball.x - ball.radius < 0){
+        ball.dx = -ball.dx;
+    }
+    if(ball.y + ball.radius > frameHeight){
+        life-- ;
+        resetBall();
+    }
+    if(ball.y - ball.radius < 0){
+        ball.dy = -ball.dy;
+    }
+}
+function resetBall(){
+    ball.x = frameWidth/2;
+    ball.y = bar.y - ballRadius;
+    ball.dx = 3 *(math.random()*2-1);
+    ball.dy = -3;
+ }
 
 
-///////////////////////////////// create  bricks ///////////////////////////////////////////
+
+
+
+////////////////////// bricks create //////////////////////
 
 
 
@@ -120,7 +173,7 @@ const brick = {
         }
     }
     
-    
+    // createBricks();
     
     
     function drawBricks (){
@@ -135,62 +188,44 @@ const brick = {
             }
         }
     }
-    ////////////// ///////////////////  create Ball //////////////////////////////////////
-    const ball = {
-        x: frameWidth/2,
-        y: bar.y - ballRadius,
-        radius:ballRadius,
-        speed:5,
-        dx:3,
-        dy:-3
+   
+    
+    function ballBrickcollision(){
+        for(let r=0 ; r< brick.row ; r++){
+            for(let c=0 ; c< brick.column ; c++){
+               if(bricks[r][c].status){
+                if(ball.x +ball.radius >bricks[r][c].x &&ball.x -ball.radius <bricks[r][c].x +brick.width &&
+                    ball.y +ball.radius >bricks[r][c].y &&ball.y -ball.radius <bricks[r][c].y + brick.height){
+                    // ball.x = bricks[r][c].x;
+                    // ball.y = bricks[r][c].y;
+                    ball.dy = -ball.dy;
+                    bricks[r][c].status = false;
+                    score += scoreUnit;
+                }
+               }
+            }
+        }
     }
-    function drawBall(){
-        cxt.beginPath();
-        cxt.arc(ball.x,ball.y,ball.radius,0,angle);
-        cxt.fillStyle = "red";
-        cxt.fill();
-        cxt.strokeStyle = "white";
-        cxt.stroke();
-        cxt.lineWidth = 2; 
-        cxt.closePath();
-        }
-        function moveBall(){
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-            
-        }
-        function draw(){
-            
-        }
-        
 
-    path()
-    createBricks();
-    var dx = 0
+    
+    path();
+    var dx =0 ;
     function loop() {
-
         const dedX = bar.x
         const dedY = bar.y
-        
-        update()
+        update();
         dx = dedX-bar.x
-        if(dx!==0){cxt.clearRect(dedX,dedY, BAR_W, BAR_H)}
-        cxt.fillStyle = "rgba(0,0,0,0.3)"
-        cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
-        //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
-        //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
-        
-        
-        
-       
-        drawBall()
-        moveBall()
-        drawBricks()
-        drawBar()
-       
+            if(dx!==0){cxt.clearRect(dedX,dedY, BAR_W, BAR_H)}
+            cxt.fillStyle = "rgba(0,0,0,0.3)"
+            cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
+        moveBall();
+        drawBall();
+        drawBar();
+        createBricks()
+        ballBrickcollision()
+        drawBricks ()
         requestAnimationFrame(loop)
     }
     
     
-    loop()
-    
+    loop();
