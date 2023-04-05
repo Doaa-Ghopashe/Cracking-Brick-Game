@@ -182,6 +182,7 @@ const brick = {
         
         
         
+        
        
         drawBall()
         moveBall()
