@@ -165,8 +165,10 @@ const brick = {
         }
         
 
-    path()
+    path();
+
     createBricks();
+
     var dx = 0
     function loop() {
 
