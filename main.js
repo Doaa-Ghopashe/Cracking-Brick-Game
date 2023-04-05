@@ -62,7 +62,7 @@ function update() {
     if(bar.x>0){
     (left) ? bar.x -= 10: bar.x=bar.x;
     }
-    
+
 
 }
 
@@ -159,7 +159,24 @@ const brick = {
             ball.y += ball.dy;
             
         }
-        
+        function balwalCol() {
+            if (ball.x + ball.radius > frameWidth || ball.x - ball.radius < 0) {
+              ball.dx = -ball.dx;
+            }
+            if (ball.y - ball.radius <= 0) {
+              ball.dy = -ball.dy;
+            }
+            if (ball.y + ball.radius >= frameHeight) {
+            //   life--;
+              resetBall();
+            }
+          }
+          function resetBall() {
+            ball.x = frameWidth / 2;
+            ball.y = bar.y - ball.radius;
+            ball.dx = 3 * (Math.random() * 2 - 1);
+            ball.dy = -3;
+          }
         function draw(){
             
         }
@@ -175,8 +192,8 @@ const brick = {
         const ballDedX = ball.x
         const ballDedY = ball.y
         moveBall()
-        update()
-        cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
+        update()      
+        // cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
         cxt.fillStyle = "rgba(0,0,0,0.3)"
         cxt.fillRect(ballDedX - (ball.radius )  , ballDedY - (ball.radius ) , ball.radius*2  , ball.radius*2  ) //to add the gray color to fit the background
         dx = dedX-bar.x
@@ -189,11 +206,12 @@ const brick = {
         
         
         
-       
+        balwalCol();
+        cxt.clearRect(0, 0, frameWidth, frameHeight);
         drawBall()
         drawBricks()
         drawBar()
-       
+  
         requestAnimationFrame(loop)
     }
     
