@@ -150,7 +150,7 @@ const brick = {
         cxt.fillStyle = "red";
         cxt.fill();
         cxt.strokeStyle = "white";
-        cxt.stroke();
+       // cxt.stroke();
         cxt.lineWidth = 2; 
         cxt.closePath();
         }
@@ -159,6 +159,7 @@ const brick = {
             ball.y += ball.dy;
             
         }
+        
         function draw(){
             
         }
@@ -171,11 +172,17 @@ const brick = {
 
         const dedX = bar.x
         const dedY = bar.y
-        
+        const ballDedX = ball.x
+        const ballDedY = ball.y
+        moveBall()
         update()
+        cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
+        cxt.fillStyle = "rgba(0,0,0,0.3)"
+        cxt.fillRect(ballDedX - (ball.radius )  , ballDedY - (ball.radius ) , ball.radius*2  , ball.radius*2  ) //to add the gray color to fit the background
         dx = dedX-bar.x
         if(dx!==0){cxt.clearRect(dedX,dedY, BAR_W, BAR_H)}
         cxt.fillStyle = "rgba(0,0,0,0.3)"
+
         cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
         //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
         //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
@@ -185,7 +192,6 @@ const brick = {
         
        
         drawBall()
-        moveBall()
         drawBricks()
         drawBar()
        
