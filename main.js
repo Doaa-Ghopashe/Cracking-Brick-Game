@@ -3,10 +3,9 @@ let gameFrame = document.getElementById("wall"),
 cxt = gameFrame.getContext('2d'),
 
 frameWidth = gameFrame.width,
-frameHeight = gameFrame.height,
+frameHeight = gameFrame.height;
 
-img=new Image(),
-ballPattern;
+
 
 //constants
 const angle = 2*Math.PI;
@@ -17,9 +16,7 @@ const ballRadius =8;
 let left = false
 let right = false
 
-//assign the url of the metal ball to the image src and use this img to create pattern for the arc
-img.src= "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Shiny_steel_ball.png/937px-Shiny_steel_ball.png",
-ballPattern = cxt.createPattern(img,'repeat');
+
 
 //creating the frame of the canvas
 
@@ -135,6 +132,22 @@ const brick = {
             }
         }
     }
+
+    function balBricol(){
+        for(let r=0 ; r< brick.row ; r++){
+            for(let c=0 ; c< brick.column ; c++){
+               if(bricks[r][c].status){
+                if(ball.x +ball.radius >bricks[r][c].x &&ball.x -ball.radius <bricks[r][c].x +brick.width &&
+                    ball.y +ball.radius >bricks[r][c].y &&ball.y -ball.radius <bricks[r][c].y + brick.height){
+                    ball.dy = -ball.dy;
+                    bricks[r][c].status = false;
+                    score += scoreUnit;
+                }
+               }
+            }
+        }
+    }
+
     ////////////// ///////////////////  create Ball //////////////////////////////////////
     const ball = {
         x: frameWidth/2,
@@ -181,7 +194,7 @@ const brick = {
             
         }
         
-
+       
     path()
     createBricks();
     var dx = 0
@@ -191,8 +204,9 @@ const brick = {
         const dedY = bar.y
         const ballDedX = ball.x
         const ballDedY = ball.y
-        moveBall()
-        update()      
+        
+        update() 
+        balBricol()
         // cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
         cxt.fillStyle = "rgba(0,0,0,0.3)"
         cxt.fillRect(ballDedX - (ball.radius )  , ballDedY - (ball.radius ) , ball.radius*2  , ball.radius*2  ) //to add the gray color to fit the background
@@ -204,14 +218,14 @@ const brick = {
         //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
         //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
         
-        
-        
+        moveBall()
+       
         balwalCol();
         cxt.clearRect(0, 0, frameWidth, frameHeight);
         drawBall()
         drawBricks()
         drawBar()
-  
+       
         requestAnimationFrame(loop)
     }
     
