@@ -110,8 +110,7 @@ const brick = {
                 bricks[r][c]={
                     x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
                     y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
-                    status : true
-    
+                    status : true,
                 }
             }
         }
