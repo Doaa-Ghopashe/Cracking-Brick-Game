@@ -166,6 +166,7 @@ const brick = {
         cxt.lineWidth = 2; 
         cxt.closePath();
         }
+   
         function moveBall(){
             ball.x += ball.dx;
             ball.y += ball.dy;
@@ -193,8 +194,29 @@ const brick = {
             
         }
         
-       
-    path()
+               function barCollision(){
+            let touchBar =ball.y +ball.radius>=bar.y && ball.y -ball.radius<= bar.y +bar.height && ball.x +ball.radius>= bar.x && ball.x -ball.radius <= bar.x+bar.width;
+            let touchEdgeL = (ball.x + ball.radius >= bar.x ) && ball.y +ball.radius > bar.y
+            //let touchEdgeR = (ball.x - ball.radius <= bar.x + bar.width) && ball.y +ball.radius > bar.y
+            console.log(touchBar) ;
+           // console.log(bar.y);
+            if(touchBar){
+                if(touchEdgeL){
+                    console.log(ball.dx);
+                    (ball.dx >0 )? ball.x= bar.x-50: ball.x= bar.x+bar.width+50
+                    
+                    
+                    ball.dx = -ball.dx
+                    
+                    return
+                }
+            
+                ball.dy= -ball.dy
+                
+            }
+        }
+
+    //path()
     createBricks();
     var dx = 0
     function loop() {
@@ -203,9 +225,8 @@ const brick = {
         const dedY = bar.y
         const ballDedX = ball.x
         const ballDedY = ball.y
-        
-        update() 
-        balBricol()
+        moveBall()
+        update()      
         // cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
         cxt.fillStyle = "rgba(0,0,0,0.3)"
         cxt.fillRect(ballDedX - (ball.radius )  , ballDedY - (ball.radius ) , ball.radius*2  , ball.radius*2  ) //to add the gray color to fit the background
@@ -217,14 +238,14 @@ const brick = {
         //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
         //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
         
-        moveBall()
-       
+        
+        
         balwalCol();
         cxt.clearRect(0, 0, frameWidth, frameHeight);
         drawBall()
         drawBricks()
         drawBar()
-       
+  
         requestAnimationFrame(loop)
     }
     
