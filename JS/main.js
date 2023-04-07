@@ -8,6 +8,10 @@ frameHeight = gameFrame.height,
 gameMusic = new Audio("Audio/GameMusic.mp3"),
 startBtnSound = new Audio("Audio/StartButton.mp3"),
 countDownSound = new Audio("Audio/Countdown.mp3"),
+brickCollSound = new Audio("Audio/Stone Crack.mp3"),
+brickBreaked = new Audio("Audio/Cracked Stone.mp3"),
+gameOverSound = new Audio("Audio/Game Over.mp3"),
+startAgainBtn = new Audio("Audio/New Trail.mp3"),
 //Ahmed declare this two variables
 left = false,
 right = false,
@@ -49,7 +53,7 @@ brick = {
     offSetLeft :10,
     offSetTop :10,
     marginTop : 8,
-    fillColor :'black',
+    fillColor :"black",
     strokeColor : 'whighter'
 },
 ball = {
@@ -139,6 +143,7 @@ function createBricks(){
             bricks[r][c]={
                 x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
                 y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
+                cracked:0,
                 status : true,
             }
         }
@@ -207,11 +212,11 @@ function barCollision(){
     let touchBar =ball.y +ball.radius>=bar.y && ball.y -ball.radius<= bar.y +bar.height && ball.x +ball.radius>= bar.x && ball.x -ball.radius <= bar.x+bar.width;
     let touchEdgeL = (ball.x + ball.radius >= bar.x ) && ball.y +ball.radius > bar.y
     //let touchEdgeR = (ball.x - ball.radius <= bar.x + bar.width) && ball.y +ball.radius > bar.y
-    console.log(touchBar) ;
+    // console.log(touchBar) ;
    // console.log(bar.y);
     if(touchBar){
         if(touchEdgeL){
-            console.log(ball.dx);
+            // console.log(ball.dx);
             (ball.dx >0 )? ball.x= bar.x-50: ball.x= bar.x+bar.width+50
             
             
@@ -227,7 +232,7 @@ function barCollision(){
 //function to reset the ball to its defualt position
 function resetBall() {
     ball.x = frameWidth / 2;
-    ball.y = bar.y - (ball.radius + 10) ;
+    ball.y = bar.y - ball.radius;
     ball.dx = 2 * (Math.random() * 2 - 1);
     ball.dy = -2;
 }
