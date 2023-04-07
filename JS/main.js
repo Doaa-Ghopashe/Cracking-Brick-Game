@@ -239,7 +239,7 @@ function barCollision(){
 //function to reset the ball to its defualt position
 function resetBall() {
     ball.x = frameWidth / 2;
-    ball.y = bar.y - ball.radius;
+    ball.y = bar.y - (ball.radius + 10);
     ball.dx = 2 * (Math.random() * 2 - 1);
     ball.dy = -2;
 }
