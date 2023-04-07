@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Break Bricks</title>
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="row">
-         <!---->
-        <canvas id="wall" width="900" height="900"></canvas>
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!---->
-    <script src="main.js"></script>
-</body>
+        <title>Break Bricks</title>
+
+        <link rel="icon" type="image/x-icon" href="Images/favicon.png">
+        <!--StyleSheet-->
+        <link rel="stylesheet" href="CSS/bootstrap.css">
+        <link rel="stylesheet" href="CSS/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <!---->
+        <div class="container">
+            <!--Game-->
+            <div class="GameFrame">
+                <!--Canvas-->
+                <canvas id="wall"></canvas>
+                <!--SartPage-->
+                <div class="startPage">
+                    <div class="row h-100 text-white align-items-center align-content-center">
+                        <!---->
+                        <div class="soundbtn">
+                            <button class="unmuted btn" id="soundbtn"><i class="fa-solid fa-volume-xmark" id="soundicon"></i></button>
+                        </div>
+                        <!---->
+                        <div class="Instructions">
+                            <h1 class="Title">
+                                <span>Break</span>
+                                <span>
+                                    Bric
+                                    <i class="fa-solid fa-bolt"></i>
+                                    ks
+                                </span>
+                            </h1>
+                            <p>
+                                please, follow this instructions to know how to play the game. press <i class="fa-solid fa-left-long"></i> to move the paddle to the left side, or press <i class="fa-solid fa-right-long"></i> to move the paddle to the right side. you have 3 lifes if you lose them all then you have to start the game and play again otherwise you will be transfered to the next level if you don't lose any life and win the game you will get a new life in the next level
+                            </p>
+                        </div>
+                        <!---->
+                        <div class="startingbtn d-flex justify-content-center">
+                            <button id="playbtn" class="btn">
+                                Start 
+                                <i class="fa-solid fa-chevron-right no-delay"></i>
+                                <i class="fa-solid fa-chevron-right delay-1"></i>
+                                <i class="fa-solid fa-chevron-right delay-2"></i>
+                            </button>
+                        </div>
+                        <!---->
+                        <div id="countdown">
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--Script-->
+       
+       
+        <script src="JS/bootstrap.js"></script>
+        <script src="JS/main.js"></script>
+        <script src="JS/canv.js"></script>
+       
+    </body>
 </html>
+
