@@ -9,6 +9,7 @@ gameMusic = new Audio("Audio/GameMusic.mp3"),
 startBtnSound = new Audio("Audio/StartButton.mp3"),
 countDownSound = new Audio("Audio/Countdown.mp3"),
 brickCollSound = new Audio("Audio/Stone Crack.mp3"),
+bouncedSound = new Audio("Audio/popedUp.wav"),
 brickBreaked = new Audio("Audio/Cracked Stone.mp3"),
 gameOverSound = new Audio("Audio/Game Over.mp3"),
 startAgainBtn = new Audio("Audio/New Trail.mp3"),
@@ -53,8 +54,8 @@ brick = {
     offSetLeft :10,
     offSetTop :10,
     marginTop : 8,
-    fillColor :"black",
-    strokeColor : 'whighter'
+    fillColor :"gray",
+    strokeColor : 'white'
 },
 ball = {
     x: frameWidth/2,
@@ -145,6 +146,7 @@ function createBricks(){
                 y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
                 cracked:0,
                 status : true,
+                color : 'gray',
             }
         }
     }
@@ -154,7 +156,7 @@ function drawBricks (){
     for(let r=0 ; r< brick.row ; r++){
         for(let c=0 ; c< brick.column ; c++){
            if(bricks[r][c].status){
-              cxt.fillStyle = brick.fillColor;
+              cxt.fillStyle = bricks[r][c].color;
               cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
               cxt.strokeStyle = brick.strokeColor;
               cxt.strokeRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
@@ -170,7 +172,10 @@ function balBricol(){
             if(ball.x +ball.radius >bricks[r][c].x &&ball.x -ball.radius <bricks[r][c].x +brick.width &&
                 ball.y +ball.radius >bricks[r][c].y &&ball.y -ball.radius <bricks[r][c].y + brick.height){
                 ball.dy = -ball.dy;
-                bricks[r][c].status = false;
+                brickCollSound.play();
+
+                (bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+
                 score += scoreUnit;
             }
            }
@@ -216,6 +221,7 @@ function barCollision(){
    // console.log(bar.y);
     if(touchBar){
         if(touchEdgeL){
+
             // console.log(ball.dx);
             (ball.dx >0 )? ball.x= bar.x-50: ball.x= bar.x+bar.width+50
             
@@ -224,6 +230,7 @@ function barCollision(){
             
             return
         }
+        bouncedSound.play();
     
         ball.dy= -ball.dy
         
