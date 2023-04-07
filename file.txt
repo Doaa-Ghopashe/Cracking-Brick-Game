@@ -1,402 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Break Bricks</title>
-        <link rel="icon" type="image/x-icon" href="favicon.png">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
-    <body>
-        <audio src="GameMusic.mp3" id="myaudio" loop="loop"></audio>
-        <div class="row">
-            <div class="col">
-                <!---->
-                <canvas id="wall" width="900" height="900"></canvas>
-                <!---->
-                <div class="start-page">
-                    <div class="BeforeStart">
-                        <div class="soundbtn">
-                            <button class="unmuted" id="soundbtn"><i class="fa-solid fa-volume-xmark" id="soundicon"></i></button>
-                        </div>
-                        <div class="Instructions">
-                            <h1><span>Break</span>  <span>Bric<i class="fa-solid fa-bolt"></i>ks</span></h1>
-                            <p>
-                                please, follow this instructions to know how to play the game. press <i class="fa-solid fa-left-long"></i> to move the paddle to the left side, or press <i class="fa-solid fa-right-long"></i> to move the paddle to the right side. you have 3 lifes if you lose them all then you have to start the game and play again otherwise you will be transfered to the next level if you don't lose any life and win the game you will get a new life in the next level
-                            </p>
-                        </div>
-                        <div class="startingbtn">
-                            <button id="playbtn">
-                                Start <i class="fa-solid fa-chevron-right no-delay"></i>
-                                <i class="fa-solid fa-chevron-right delay-1"></i>
-                                <i class="fa-solid fa-chevron-right delay-2"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="GameStart hidden">
-                        <span class="countdown"></span>
-                    </div>
-                </div>
-                <!---->
-                
-            </div>
-        </div>
-        
-        <!---->
-        <script src="main.js"></script>
-    </body>
-</html>
-
-body
-{
-    margin: 0;
-    padding: 0;
-    background-color: black;
-}
-*
-{
-    box-sizing: border-box;
-}
-img
-{
-    width: 100%;
-}
-.row
-{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-canvas
-{
-    background: url('wallbackground.avif');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* margin-top: 70px; */
-    /* position: relative; */
-
-}
-.col
-{
-    position: relative;
-}
-.start-page
-{
-    /* width: fit-content; */
-    background-color: rgba(0, 0, 0, 0.23);
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    inset: 0;
-
-}
-#playbtn
-{
-    padding: 12px 23px;
-    font-size: 27px;
-    cursor: pointer;
-    background-image: linear-gradient(45deg, rgb(125, 125, 125), rgb(208, 208, 208)),
-    linear-gradient(-30deg, hsl(0, 0%, 100%), hsl(0, 0%, 24%));
-    background-clip: padding-box, border-box;
-    background-origin: border-box;
-    font-weight: 700;
-    border: 3px solid transparent;
-    border-radius: 1.75rem;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-.no-delay , .delay-1 , .delay-2
-{
-    animation-name:GoOn ;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-}
-.countdown{
-    position: absolute;
-    z-index: 5;
-    font-size: 80px;
-    color: white;
-    /* position: relative; */
-    /* font-weight: 100; */
-}
-.hidden
-{
-    /* display: none; */
-}
-.no-delay
-{
-    animation-delay: 0.5s;
-}
-.delay-1
-{
-    animation-delay: 0.4s;
-}
-.delay-2
-{
-    animation-delay: 0.3s;
-}
-#playbtn::after{
-    content: "";
-    inset: 0;
-    width: 0;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.189);
-    z-index: -1;
-    transition: all 0.5s cubic-bezier(.5,1.6,.4,.7);
-}
-#playbtn:hover{
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.716);
-}
-#playbtn:hover::after{
-    width: 100%;
-}
-@keyframes GoOn{
-    0%{
-        transform: translateX(0px);
-        opacity: 0.9;
-    }
-    20%{
-        transform: translateX(0px);
-        opacity: 0.8;
-    }
-    80%{
-        transform: translateX(0px);
-        opacity: 0.4;
-    }
-    100%{
-        opacity: 0.2;
-        transform: translateX(20px);
-    }
-}
-
-.soundbtn
-{
-    top: 29px;
-    right: 35px;
-    position: absolute;
-}
-#soundbtn{
-background-color: transparent;
-border:none;
-color: white;
-font-size: 30px;
-}
-.countdown::after{
-    content:"";
-    inset: 0;
-    /* background-color: aqua; */
-    position: absolute;
-    animation: counting 10s linear 0s  ;
-}
-.Instructions
-{
-    text-align: center;
-    color:white;
-}
-.Instructions h1
-{
-    /* color: oldlace; */
-    /* border: 1px dotted white; */
-    backdrop-filter: blur(2px);
-    width: fit-content;
-    padding: 12px;
-    font-size: 84px;
-    margin: 0 auto 30px;
-}
-.Instructions span:first-child
-{
-    
-    display: block;
-    color: rgb(255, 185, 54);
-    -webkit-text-stroke: 1px #443d3d;
-    transform: skew(-32deg,0deg);
-    font-weight: 900;
-    font-size: 1em;
-}
-.Instructions span:last-child
-{
-    
-    display: block;
-    color: rgb(232, 167, 45);
-    -webkit-text-stroke: 1px #443d3d;
-    transform: skew(-32deg,0deg);
-    font-weight: 900;
-    font-size: 0.6em;
-    text-align: left;
-}
-.Instructions span i{
-    -webkit-text-stroke: transparent;
-    color: rgb(255, 255, 255);
-    margin: 0 4px;
-    transform: skew(-24deg,-10deg);
-    font-size: 27px;
-}
-.Instructions p
-{
-    font-size: 27px;
-    text-transform: capitalize;
-    width: 70%;
-    margin: auto;
-    overflow-y: scroll;
-    height: 50%;
-    line-height: 2;
-}
-.Instructions p i
-{
-    color: #443d3d;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: white;
-}
-@keyframes counting{
-    25%{
-       content: "3";
-       transform: scale(1.5);
-    }
-    35%{
-        opacity: 0;
-        transform: scale(1);
-    }
-    50%{
-        opacity: 1;
-        content: "2";
-       transform: scale(1.5)
-    }
-    55%{
-        opacity: 0;
-        transform: scale(1);
-    }
-    75%{
-        opacity: 1;
-        content: "1";
-        transform: scale(1.5)
-    }
-    80%{
-        opacity: 0;
-        transform: scale(1);
-    }
-    100%{
-        opacity: 1;
-        content: "Go!";
-        transform: scale(1.5)
-    }
-}
-p::-webkit-scrollbar
-{
-    color: beige;
-    background-color: rgba(0, 0, 0, 0.178);
-    border-radius:15px ;
-}
-p::-webkit-scrollbar-button
-{
-    height: 0;
-}
-p::-webkit-scrollbar-thumb
-{
-    color: white;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.795);
-}
-.hidden
-{
-    display: none;
-}
-.GameStart
-{
-    position: absolute;
-}                
-                
-                
-
-//define variables
-let gameFrame = document.getElementById("wall"), 
-cxt = gameFrame.getContext('2d'),
-
-frameWidth = gameFrame.width,
-frameHeight = gameFrame.height,
-
-img=new Image(),
-ballPattern;
-
-//constants
-const angle = 2*Math.PI;
-const BAR_W = 70
-const BAR_H = 10
-
-//variables
-let left = false
-let right = false
-
-//assign the url of the metal ball to the image src and use this img to create pattern for the arc
-img.src= "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Shiny_steel_ball.png/937px-Shiny_steel_ball.png",
-ballPattern = cxt.createPattern(img,'repeat');
-
-//creating the frame of the canvas
-
-//with the beginpath and closepath we determine the start of this shape and its end
-function path(){
-cxt.beginPath();
-
-    //fill this rectangle with a semi transparent black color
-    cxt.fillStyle = 'rgba(0,0,0,0.3)';
-    //styling the border with a semi transparent black color
-    cxt.strokeStyle = "rgba(0,0,0,0.2)";
-    //determine the thickness of this border
-    cxt.lineWidth = 3;
-    //create a border srrounding this rectangle
-    cxt.strokeRect(0,0,frameWidth,frameHeight);
-    //create a solid rectangle with the width and the height of the canvas
-    cxt.fillRect(0,0,frameWidth,frameHeight);
-
-cxt.closePath();
-}
-//creating the ball with styling
-cxt.beginPath();
-    
-    cxt.strokeStyle = "rgba(0,0,0,0.2)";
-
-    cxt.lineWidth = 2;
-    //creating a fully arc with determining its position in the canvas
-    cxt.arc(100,frameHeight - 50,15,0,angle);
-    //put a background for this arc using the image we create above
-    cxt.fillStyle = "rgba(255,255,255,0.9)";
-
-    cxt.fill();
-    
-    cxt.stroke();
-cxt.closePath();
-//start of my code
-const bar = {
-    x: frameWidth/2 - BAR_W/2, //position on x
-    y: frameHeight*0.75,      //position on y
-    width: BAR_W,
-    height: BAR_H
-}
-
-function drawBar() {
-    //cxt.fillStyle = "" color
-    
-    cxt.fillRect(bar.x, bar.y, bar.width, bar.height)
-}
-function update() {
-    if(bar.x+BAR_W< frameWidth){
-    (right) ? bar.x += 10: bar.x=bar.x;    
-    }
-    if(bar.x>0){
-    (left) ? bar.x -= 10: bar.x=bar.x;
-    }
-    
-
-}
 
 //control bar
 document.addEventListener("keydown", function(event){
@@ -418,74 +19,123 @@ document.addEventListener("keyup", function(event){
         left = false
     }
 })
-path()
-function loop() {
-    const dedX = bar.x
-    const dedY = bar.y
-    update()
-    cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
-   // cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
-    cxt.fillRect(dedX,dedY,BAR_W,BAR_H);
-    
-    drawBar()
-    
-    requestAnimationFrame(loop)
-}
 
 
-loop()
+///////////////////////////////// create  bricks ///////////////////////////////////////////
 
-/*play button sound effect */
-// let audio = new Audio()
-// audio.src = "SoundEffect.mp3"
-let playbttn = document.getElementById("playbtn");
-playbttn.addEventListener('mouseover',()=>{
-    // audio.play();
-    // audio.currentTime = 0;
-})
-playbttn.addEventListener("mouseleave",()=>{
-    // audio.pause();
-})
-let before  = document.getElementsByClassName("BeforeStart")[0]
-let counter = document.getElementsByClassName("GameStart")[0]
-playbttn.addEventListener("click",()=>{
-    before.classList.add("hidden")
-    counter.classList.remove("hidden");
-    setTimeout(counting,3000)
-});
 
-function counting (){
-    counter.classList.add("hidden")
-}
-// window.onloadstart = ()=>{
-//     console.log("document is ready");
-//     let audio = new Audio();
-//         audio.src = "GameMusic.mp3";
-//         audio.play();
-//         audio.loop = "true";
-// }
-let audio = new Audio("GameMusic.mp3");
-audio.autoplay = "true";
-// window.onload=  function (){
-//      document.getElementById("my_audio").play();
-// }
-//mute or umnute the background music
-let soundbtn = document.getElementById("soundbtn");
-soundbtn.addEventListener("click",()=>{
-    if(!audio.muted)
-    {
-        console.log("is not muted");
-        audio.muted = true;
-        document.getElementById("soundicon").classList.remove("fa-volume-high");
-        document.getElementById("soundicon").classList.add("fa-volume-xmark");
+
+const brick = {
+    row : 5,
+    column : 10,
+    width : 55,
+    height : 20,
+    offSetLeft :30,
+    offSetTop :30,
+    marginTop : 40,
+    fillColor :'black',
+    strokeColor : 'white'
     }
-    else
-    {
-        console.log("is muted")
-        audio.play();
-
-        audio.muted = false;
-        document.getElementById("soundicon").classList.add("fa-volume-high");
-        document.getElementById("soundicon").classList.remove("fa-volume-xmark");
+    
+    let bricks =[];
+    
+    function createBricks(){
+        for(let r=0 ; r< brick.row ; r++){
+            bricks[r]=[];
+            for(let c=0 ; c< brick.column ; c++){
+                bricks[r][c]={
+                    x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
+                    y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
+                    status : true
+    
+                }
+            }
+        }
     }
-})
+    
+    
+    
+    
+    function drawBricks (){
+        for(let r=0 ; r< brick.row ; r++){
+            for(let c=0 ; c< brick.column ; c++){
+               if(bricks[r][c].status){
+                  cxt.fillStyle = brick.fillColor;
+                  cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
+                  cxt.strokeStyle = brick.strokeColor;
+                  cxt.strokeRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
+               }
+            }
+        }
+    }
+    ////////////// ///////////////////  create Ball //////////////////////////////////////
+    const ball = {
+        x: frameWidth/2,
+        y: bar.y - ballRadius,
+        radius:ballRadius,
+        speed:5,
+        dx:3,
+        dy:-3
+    }
+    function drawBall(){
+        cxt.beginPath();
+        cxt.arc(ball.x,ball.y,ball.radius,0,angle);
+        cxt.fillStyle = "red";
+        cxt.fill();
+        cxt.strokeStyle = "white";
+       // cxt.stroke();
+        cxt.lineWidth = 2; 
+        cxt.closePath();
+        }
+   
+        function moveBall(){
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+            
+        }
+        function balwalCol() {
+            if (ball.x + ball.radius > frameWidth || ball.x - ball.radius < 0) {
+              ball.dx = -ball.dx;
+            }
+            if (ball.y - ball.radius <= 0) {
+              ball.dy = -ball.dy;
+            }
+            if (ball.y + ball.radius >= frameHeight) {
+            //   life--;
+              resetBall();
+            }
+          }
+          function resetBall() {
+            ball.x = frameWidth / 2;
+            ball.y = bar.y - ball.radius;
+            ball.dx = 3 * (Math.random() * 2 - 1);
+            ball.dy = -3;
+          }
+        function draw(){
+            
+        }
+        
+        
+
+    //path()
+    createBricks();
+    var dx = 0
+    function loop() {
+
+
+        moveBall()
+
+        
+        
+        balwalCol();
+        cxt.clearRect(0, 0, frameWidth, frameHeight);
+        drawBall()
+        drawBricks()
+        drawBar()
+        barCollision()
+        update() 
+        requestAnimationFrame(loop)
+    }
+    
+    
+    loop()
