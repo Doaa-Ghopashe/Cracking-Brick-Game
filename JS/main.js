@@ -18,6 +18,7 @@ left = false,
 right = false,
 score = 0,
 scoreUnit = 5,
+lvl=1,
 //Nourhan declare this variable
 bricks =[];
 
@@ -45,6 +46,7 @@ bar = {
     width: BAR_W,
     height: BAR_H
 },
+
 //Nourhan declare this variable
 brick = {
     row : 4,
@@ -67,7 +69,6 @@ ball = {
 }
 
 //--------------------------------------------------------Functions Declaration-----------------------------------------------------
-
 //function to draw the canvas frame
 function path(){
     cxt.beginPath();
@@ -122,14 +123,16 @@ function startGame ()
 }
 //function to draw the bar
 function drawBar() {
+   // BAR_W = 30
     cxt.fillStyle = "black" 
-  
+    lvl>1 ? bar.width=30: 0;
+    
 
     cxt.fillRect(bar.x, bar.y, bar.width, bar.height)
 }
 //function to move the bar left and right
 function update() {
-    if(bar.x+BAR_W< frameWidth){
+    if(bar.x+bar.width< frameWidth){
         (right) ? bar.x += 3: bar.x=bar.x;    
     }
     if(bar.x>0){
@@ -153,9 +156,11 @@ function createBricks(){
 }
 //function to draw bricks
 function drawBricks (){
+    let newLvl = true;
     for(let r=0 ; r< brick.row ; r++){
         for(let c=0 ; c< brick.column ; c++){
            if(bricks[r][c].status){
+              newLvl = false;
               cxt.fillStyle = bricks[r][c].color;
               cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
               cxt.strokeStyle = brick.strokeColor;
@@ -163,6 +168,12 @@ function drawBricks (){
            }
         }
     }
+    
+    if(newLvl){
+        lvl++;
+        createBricks();
+    }   
+    console.log(lvl);
 }
 //function for the collision between the ball and the brick
 function balBricol(){
