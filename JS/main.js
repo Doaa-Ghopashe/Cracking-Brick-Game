@@ -12,7 +12,7 @@ countDownSound = new Audio("Audio/Countdown.mp3"),
 left = false,
 right = false,
 score = 0,
-scoreUnit,
+scoreUnit = 5,
 //Nourhan declare this variable
 bricks =[];
 
@@ -31,32 +31,32 @@ countDownBox = document.getElementById("countdown"),
 startPage = document.getElementsByClassName("startPage")[0],
 //Ahmed declare those variables
 angle = 2*Math.PI,
-BAR_W = 200,
-BAR_H = 20,
-ballRadius =8,
+BAR_W = 60,
+BAR_H = 6,
+ballRadius =3,
 bar = {
     x: frameWidth/2 - BAR_W/2, //position on x
-    y: frameHeight*0.75,      //position on y
+    y: frameHeight*0.85,      //position on y
     width: BAR_W,
     height: BAR_H
 },
 //Nourhan declare this variable
 brick = {
-    row : 5,
-    column : 10,
-    width : 55,
-    height : 20,
-    offSetLeft :30,
-    offSetTop :30,
-    marginTop : 40,
+    row : 4,
+    column : 9,
+    width : 22,
+    height : 7,
+    offSetLeft :10,
+    offSetTop :10,
+    marginTop : 8,
     fillColor :'black',
-    strokeColor : 'white'
+    strokeColor : 'whighter'
 },
 ball = {
     x: frameWidth/2,
     y: bar.y - ballRadius,
     radius:ballRadius,
-    speed:5,
+    speed:4,
     dx:3,
     dy:-3
 }
@@ -125,10 +125,10 @@ function drawBar() {
 //function to move the bar left and right
 function update() {
     if(bar.x+BAR_W< frameWidth){
-        (right) ? bar.x += 10: bar.x=bar.x;    
+        (right) ? bar.x += 3: bar.x=bar.x;    
     }
     if(bar.x>0){
-        (left) ? bar.x -= 10: bar.x=bar.x;
+        (left) ? bar.x -= 3: bar.x=bar.x;
     }
 }
 //function to create bricks
@@ -228,8 +228,8 @@ function barCollision(){
 function resetBall() {
     ball.x = frameWidth / 2;
     ball.y = bar.y - ball.radius;
-    ball.dx = 3 * (Math.random() * 2 - 1);
-    ball.dy = -3;
+    ball.dx = 2 * (Math.random() * 2 - 1);
+    ball.dy = -2;
 }
 //function have no idea about its existing
 function draw(){
