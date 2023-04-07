@@ -140,6 +140,7 @@ function createBricks(){
                 x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
                 y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
                 status : true,
+                color : 'black'
             }
         }
     }
@@ -149,7 +150,7 @@ function drawBricks (){
     for(let r=0 ; r< brick.row ; r++){
         for(let c=0 ; c< brick.column ; c++){
            if(bricks[r][c].status){
-              cxt.fillStyle = brick.fillColor;
+              cxt.fillStyle = bricks[r][c].color;
               cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
               cxt.strokeStyle = brick.strokeColor;
               cxt.strokeRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
@@ -165,7 +166,7 @@ function balBricol(){
             if(ball.x +ball.radius >bricks[r][c].x &&ball.x -ball.radius <bricks[r][c].x +brick.width &&
                 ball.y +ball.radius >bricks[r][c].y &&ball.y -ball.radius <bricks[r][c].y + brick.height){
                 ball.dy = -ball.dy;
-                bricks[r][c].status = false;
+                (bricks[r][c].color == 'red')?bricks[r][c].status = false: bricks[r][c].color = 'red';
                 score += scoreUnit;
             }
            }
