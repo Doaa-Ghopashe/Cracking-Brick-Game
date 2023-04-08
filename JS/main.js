@@ -243,7 +243,20 @@ function barCollision(){
         }
         bouncedSound.play();
     
-        ball.dy= -ball.dy
+        if(ball.x >= bar.x+(bar.width/3) && ball.x < bar.x+(bar.width/3)*2){ //middle of the bar
+            ball.dy= -ball.dy
+        }
+        else if(ball.x < bar.x+(bar.width/3)){                              //the first third of the bar
+            ball.dx = (1-((ball.x - bar.x)/bar.width)) *-3      
+            ball.dy= -ball.dy
+            console.log(ball.dx);
+        }
+        else{                                                       // the last third of the bar
+            ball.dx = (((ball.x - bar.x)/bar.width)) *3
+            ball.dy= -ball.dy
+            console.log(ball.dx);
+        }
+        
         
     }
 }
