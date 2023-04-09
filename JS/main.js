@@ -19,11 +19,16 @@ right = false,
 score = 0,
 scoreUnit = 5,
 lvl=1,
+life = 3,
 extraLife = false,
 randRow = Math.ceil(3*Math.random()),
 randCol = Math.ceil(8*Math.random()),
+healthImg = new Image(),
+lvlImg = new Image();
+lvlImg.src = "Images/star_.png";
+healthImg.src = "Images/love.png";
 //Nourhan declare this variable
-bricks =[];
+let bricks =[];
 
 //
 gameMusic.loop = "true"
@@ -264,7 +269,7 @@ function balwalCol() {
       ball.dy = -ball.dy;
     }
     if (ball.y + ball.radius >= frameHeight) {
-    //   life--;
+       life--;
       resetBall();
     }
 }
@@ -281,8 +286,10 @@ function barCollision(){
             // console.log(ball.dx);
             (ball.dx >0 )? ball.x= bar.x-50: ball.x= bar.x+bar.width+50
             
-            
+            ball.x -= 10;
+            ball.y -= 10;
             ball.dx = -ball.dx
+            ball.dy = ball.dy*-0.5  
             
             return
         }
@@ -308,7 +315,8 @@ function barCollision(){
 function barHealthCol(){
     let touchBar =health.y +health.radius>=bar.y && health.y -health.radius<= bar.y +bar.height && health.x + health.radius>= bar.x && health.x -health.radius <= bar.x+bar.width;
     if(touchBar){
-        //increase the health variable here ==>
+        //increase the health variable here ==> 
+        life++;
         health.y += frameHeight;
     }
 }
@@ -320,8 +328,12 @@ function resetBall() {
     ball.dy = -2;
 }
 //function have no idea about its existing
-function draw(){
-            
+function drawHealthImage(){
+    cxt.drawImage(healthImg,frameWidth - 35,-10, 35, 35)
+    cxt.font = "12px Arial";
+    cxt.fillText(`${life}`, frameWidth - 40, 14);
+    cxt.drawImage(lvlImg, 25, -2, 20, 20);
+    cxt.fillText(`${lvl}`, 10, 14);
 }
 //
 function loop() {
@@ -346,6 +358,7 @@ function loop() {
     moveBall()
 
     balwalCol();
+    
     cxt.clearRect(0, 0, frameWidth, frameHeight);
     drawBall()
     if(extraLife){
@@ -356,6 +369,7 @@ function loop() {
     
     drawBricks()
     drawBar()
+   drawHealthImage();
     barCollision()
     update() 
     requestAnimationFrame(loop)
