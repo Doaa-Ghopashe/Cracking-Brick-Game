@@ -1,0 +1,223 @@
+body
+{
+    background-color: black;
+}
+.GameFrame
+{
+    position: relative;
+}
+canvas
+{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background: url('https://img.freepik.com/free-vector/hand-drawn-bricks-background_1176-82.jpg?w=2000');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.startPage
+{
+    background-color: rgba(255, 255, 255, 0.094);
+    position: absolute;
+    inset: 0;
+}
+.soundbtn
+{
+    position: absolute;
+    top: 25px;
+    width: fit-content;
+    right: 25px;
+}
+.soundbtn .btn
+{
+    background-color: transparent;
+    border:none;
+    color: white;
+    font-size: 35px;
+}
+.Instructions
+{
+    text-align: center;
+    color:white;
+}
+.Instructions .Title
+{
+    backdrop-filter: blur(3px);
+    width: fit-content;
+    font-size: 84px;
+    margin: 0 auto 40px;
+    
+    -webkit-text-stroke: 1px #443d3d;
+    font-weight: 900;
+
+}
+.Instructions span:first-child , .Instructions span:last-child
+{
+    display: block;
+    background: -webkit-linear-gradient(#f54545, #770707);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}   
+.Instructions span:first-child
+{
+    transform: skew(-32deg,0deg);
+}
+.Instructions span:last-child
+{
+    transform: skew(-32deg,0deg);
+    font-size: 0.6em;
+    text-align: left;
+}
+.Instructions span i{
+    -webkit-text-fill-color: white;
+    transform: skew(-24deg,-10deg);
+    font-size: 30px;
+}
+.Instructions p
+{
+    font-size: 27px;
+    background-color: rgba(0, 0, 0, 0.241);
+    text-transform: capitalize;
+    backdrop-filter:blur(5px) ;
+    width: 50%;
+    margin: auto;
+    overflow-y: scroll;
+    height: 20rem;
+    line-height: 2;
+}
+.Instructions p i
+{
+    color: #443d3d;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+}
+p::-webkit-scrollbar
+{
+    color: beige;
+    background-color: rgba(0, 0, 0, 0.465);
+    border-radius:15px ;
+}
+p::-webkit-scrollbar-button
+{
+    height: 0;
+}
+p::-webkit-scrollbar-thumb
+{
+    color: white;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.795);
+}
+#playbtn
+{
+    margin-top: 40px;
+    padding: 12px 23px;
+    font-size: 27px;
+    cursor: pointer;
+    background-image: linear-gradient(45deg, rgb(125, 125, 125), rgb(208, 208, 208)),
+    linear-gradient(-30deg, hsl(0, 0%, 100%), hsl(0, 0%, 24%));
+    background-clip: padding-box, border-box;
+    background-origin: border-box;
+    font-weight: 700;
+    border: 3px solid transparent;
+    border-radius: 1.75rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+#playbtn::after{
+    content: "";
+    inset: 0;
+    width: 0;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.189);
+    z-index: -1;
+    transition: all 0.5s cubic-bezier(.5,1.6,.4,.7);
+}
+#playbtn:hover{
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.716);
+}
+#playbtn:hover::after{
+    width: 100%;
+}
+.no-delay , .delay-1 , .delay-2
+{
+    animation-name:GoOn ;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+.no-delay
+{
+    animation-delay: 0.5s;
+}
+.delay-1
+{
+    animation-delay: 0.4s;
+}
+.delay-2
+{
+    animation-delay: 0.3s;
+}
+#countdown
+{
+    position:absolute;
+    inset: 0;
+    background-color: #0000009d;
+    font-size: 80px;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    z-index: 10;
+}
+#countdown::after
+{
+    content:"";
+    position: absolute;
+    animation: counting 4s linear 0s  ;
+
+}
+/**/
+@keyframes GoOn{
+    0%{
+        transform: translateX(0px);
+        opacity: 0.9;
+    }
+    20%{
+        transform: translateX(0px);
+        opacity: 0.8;
+    }
+    80%{
+        transform: translateX(0px);
+        opacity: 0.4;
+    }
+    100%{
+        opacity: 0.2;
+        transform: translateX(20px);
+    }
+}
+@keyframes counting{
+    25%{
+       content: "3";
+       transform: scale(2);
+    }
+
+    50%{
+        opacity: 1;
+        content: "2";
+       transform: scale(1.5)
+    }
+    
+    75%{
+        opacity: 1;
+        content: "1";
+        transform: scale(2)
+    }
+    100%{
+        opacity: 1;
+        content: "Go!";
+        transform: scale(1.5)
+    }
+}
