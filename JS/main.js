@@ -19,6 +19,9 @@ right = false,
 score = 0,
 scoreUnit = 5,
 lvl=1,
+extraLife = false,
+randRow = Math.ceil(3*Math.random()),
+randCol = Math.ceil(8*Math.random()),
 //Nourhan declare this variable
 bricks =[];
 
@@ -66,6 +69,14 @@ ball = {
     speed:4,
     dx:3,
     dy:-3
+},
+health = {
+    x: frameWidth/2,
+    y: 0,
+    radius:ballRadius,
+    speed:4,
+    dx:2,
+    dy:-1
 }
 
 //--------------------------------------------------------Functions Declaration-----------------------------------------------------
@@ -150,10 +161,14 @@ function createBricks(){
                 cracked:0,
                 status : true,
                 color : 'gray',
+                life: false
             }
         }
     }
+    bricks[randRow][randCol].life = true;
 }
+// testing extralife
+
 //function to draw bricks
 function drawBricks (){
     let newLvl = true;
@@ -171,10 +186,13 @@ function drawBricks (){
     
     if(newLvl){
         lvl++;
+        randRow = Math.ceil(3*Math.random())
+        randCol = Math.ceil(8*Math.random())
         createBricks();
     }   
     console.log(lvl);
 }
+
 //function for the collision between the ball and the brick
 function balBricol(){
     for(let r=0 ; r< brick.row ; r++){
@@ -185,9 +203,22 @@ function balBricol(){
                 ball.dy = -ball.dy;
                 brickCollSound.play();
 
-                (bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+                //(bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+                if(bricks[r][c].color == 'red'){
+                    if(bricks[r][c].life){
+                        health.x = bricks[r][c].x +brick.width/2;
+                        health.y = bricks[r][c].y +brick.height;
+                        extraLife = true;
+                        
+                    }
+                    bricks[r][c].status = false;
+                    score += scoreUnit;
+                }
+                else{
+                    bricks[r][c].color='red'
+                }
 
-                score += scoreUnit;
+               
             }
            }
         }
@@ -203,6 +234,20 @@ function drawBall(){
    // cxt.stroke();
     cxt.lineWidth = 2; 
     cxt.closePath();
+}
+//function to draw health
+function drawHealth(){
+    cxt.beginPath();
+    cxt.arc(health.x,health.y,ball.radius,0,angle);
+    cxt.fillStyle = "pink";
+    cxt.fill();
+    cxt.strokeStyle = "white";
+   // cxt.stroke();
+    cxt.lineWidth = 2; 
+    cxt.closePath();
+}
+function moveHealth(){
+    health.y -= health.dy;
 }
 //function to move the ball
 function moveBall(){
@@ -260,6 +305,13 @@ function barCollision(){
         
     }
 }
+function barHealthCol(){
+    let touchBar =health.y +health.radius>=bar.y && health.y -health.radius<= bar.y +bar.height && health.x + health.radius>= bar.x && health.x -health.radius <= bar.x+bar.width;
+    if(touchBar){
+        //increase the health variable here ==>
+        health.y += frameHeight;
+    }
+}
 //function to reset the ball to its defualt position
 function resetBall() {
     ball.x = frameWidth / 2;
@@ -296,6 +348,12 @@ function loop() {
     balwalCol();
     cxt.clearRect(0, 0, frameWidth, frameHeight);
     drawBall()
+    if(extraLife){
+        drawHealth()
+        moveHealth()
+        barHealthCol()
+    }
+    
     drawBricks()
     drawBar()
     barCollision()
