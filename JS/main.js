@@ -18,8 +18,13 @@ left = false,
 right = false,
 score = 0,
 scoreUnit = 5,
+lvl=1,
+extraLife = false,
+randRow = Math.ceil(3*Math.random()),
+randCol = Math.ceil(8*Math.random()),
 //Nourhan declare this variable
-bricks =[];
+bricks =[],
+unbricks = [];
 
 //
 gameMusic.loop = "true"
@@ -45,6 +50,7 @@ bar = {
     width: BAR_W,
     height: BAR_H
 },
+
 //Nourhan declare this variable
 brick = {
     row : 4,
@@ -64,10 +70,27 @@ ball = {
     speed:4,
     dx:3,
     dy:-3
+},
+health = {
+    x: frameWidth/2,
+    y: 0,
+    radius:ballRadius,
+    speed:4,
+    dx:2,
+    dy:-1
+},
+unbrick = {
+    row : 1,
+    column : 9,
+    width : 25,
+    height : 7,
+    offSetLeft :10,
+    offSetTop :10,
+    marginTop : 8,
+    fillColor :"blue",
+    strokeColor : 'white'
 }
-
 //--------------------------------------------------------Functions Declaration-----------------------------------------------------
-
 //function to draw the canvas frame
 function path(){
     cxt.beginPath();
@@ -122,14 +145,16 @@ function startGame ()
 }
 //function to draw the bar
 function drawBar() {
+   // BAR_W = 30
     cxt.fillStyle = "black" 
-  
+    lvl>1 ? bar.width=30: 0;
+    
 
     cxt.fillRect(bar.x, bar.y, bar.width, bar.height)
 }
 //function to move the bar left and right
 function update() {
-    if(bar.x+BAR_W< frameWidth){
+    if(bar.x+bar.width< frameWidth){
         (right) ? bar.x += 3: bar.x=bar.x;    
     }
     if(bar.x>0){
@@ -147,15 +172,37 @@ function createBricks(){
                 cracked:0,
                 status : true,
                 color : 'gray',
+                life: false
             }
         }
     }
+    bricks[randRow][randCol].life = true;
 }
+function createUnBricks(){
+    for(let r=0 ; r< unbrick.row ; r++){
+        unbricks[r]=[];
+        for(let c=0 ; c< unbrick.column ; c++){
+            unbricks[r][c]={
+                x : c * (unbrick.offSetLeft + unbrick.width) + unbrick.offSetLeft ,
+                y : r * (unbrick.offSetTop + unbrick.height) + unbrick.offSetTop + unbrick.marginTop ,
+                cracked:0,
+                status : true,
+                color : 'blue',
+                life: false
+            }
+        }
+    }
+    unbricks[randRow][randCol].life = true;
+}
+// testing extralife
+
 //function to draw bricks
 function drawBricks (){
+    let newLvl = true;
     for(let r=0 ; r< brick.row ; r++){
         for(let c=0 ; c< brick.column ; c++){
            if(bricks[r][c].status){
+              newLvl = false;
               cxt.fillStyle = bricks[r][c].color;
               cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
               cxt.strokeStyle = brick.strokeColor;
@@ -163,7 +210,38 @@ function drawBricks (){
            }
         }
     }
+    
+    if(newLvl){
+        lvl++;
+        randRow = Math.ceil(3*Math.random())
+        randCol = Math.ceil(8*Math.random())
+        createBricks();
+    }   
+    console.log(lvl);
 }
+function drawunBricks (){
+    let newLvl = true;
+    for(let r=0 ; r< unbrick.row ; r++){
+        for(let c=0 ; c< unbrick.column ; c++){
+           if(bricks[r][c].status){
+              newLvl = false;
+              cxt.fillStyle = unbricks[r][c].color;
+              cxt.fillRect(unbricks[r][c].x, unbricks[r][c].y, unbrick.width, unbrick.height);
+              cxt.strokeStyle = unbrick.strokeColor;
+              cxt.strokeRect(unbricks[r][c].x, unbricks[r][c].y, unbrick.width, unbrick.height);
+           }
+        }
+    }
+    
+    if(newLvl){
+        lvl++;
+        randRow = Math.ceil(3*Math.random())
+        randCol = Math.ceil(8*Math.random())
+        createBricks();
+    }   
+    console.log(lvl);
+}
+
 //function for the collision between the ball and the brick
 function balBricol(){
     for(let r=0 ; r< brick.row ; r++){
@@ -174,9 +252,52 @@ function balBricol(){
                 ball.dy = -ball.dy;
                 brickCollSound.play();
 
-                (bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+                //(bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+                if(bricks[r][c].color == 'red'){
+                    if(bricks[r][c].life){
+                        health.x = bricks[r][c].x +brick.width/2;
+                        health.y = bricks[r][c].y +brick.height;
+                        extraLife = true;
+                        
+                    }
+                    bricks[r][c].status = false;
+                    score += scoreUnit;
+                }
+                else{
+                    bricks[r][c].color='red'
+                }
 
-                score += scoreUnit;
+               
+            }
+           }
+        }
+    }
+}
+function balUnBricol(){
+    for(let r=0 ; r< unbrick.row ; r++){
+        for(let c=0 ; c< unbrick.column ; c++){
+           if(unbricks[r][c].status){
+            if(ball.x +ball.radius >unbricks[r][c].x &&ball.x -ball.radius <unbricks[r][c].x +unbrick.width &&
+                ball.y +ball.radius >unbricks[r][c].y &&ball.y -ball.radius <unbricks[r][c].y + unbrick.height){
+                ball.dy = -ball.dy;
+                brickCollSound.play();
+
+                //(bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
+                if(bricks[r][c].color == 'red'){
+                    if(bricks[r][c].life){
+                        health.x = bricks[r][c].x +brick.width/2;
+                        health.y = bricks[r][c].y +brick.height;
+                        extraLife = true;
+                        
+                    }
+                    bricks[r][c].status = false;
+                    score += scoreUnit;
+                }
+                else{
+                    bricks[r][c].color='red'
+                }
+
+               
             }
            }
         }
@@ -192,6 +313,20 @@ function drawBall(){
    // cxt.stroke();
     cxt.lineWidth = 2; 
     cxt.closePath();
+}
+//function to draw health
+function drawHealth(){
+    cxt.beginPath();
+    cxt.arc(health.x,health.y,ball.radius,0,angle);
+    cxt.fillStyle = "pink";
+    cxt.fill();
+    cxt.strokeStyle = "white";
+   // cxt.stroke();
+    cxt.lineWidth = 2; 
+    cxt.closePath();
+}
+function moveHealth(){
+    health.y -= health.dy;
 }
 //function to move the ball
 function moveBall(){
@@ -232,8 +367,28 @@ function barCollision(){
         }
         bouncedSound.play();
     
-        ball.dy= -ball.dy
+        if(ball.x >= bar.x+(bar.width/3) && ball.x < bar.x+(bar.width/3)*2){ //middle of the bar
+            ball.dy= -ball.dy
+        }
+        else if(ball.x < bar.x+(bar.width/3)){                              //the first third of the bar
+            ball.dx = (1-((ball.x - bar.x)/bar.width)) *-3      
+            ball.dy= -ball.dy
+            console.log(ball.dx);
+        }
+        else{                                                       // the last third of the bar
+            ball.dx = (((ball.x - bar.x)/bar.width)) *3
+            ball.dy= -ball.dy
+            console.log(ball.dx);
+        }
         
+        
+    }
+}
+function barHealthCol(){
+    let touchBar =health.y +health.radius>=bar.y && health.y -health.radius<= bar.y +bar.height && health.x + health.radius>= bar.x && health.x -health.radius <= bar.x+bar.width;
+    if(touchBar){
+        //increase the health variable here ==>
+        health.y += frameHeight;
     }
 }
 //function to reset the ball to its defualt position
@@ -272,6 +427,12 @@ function loop() {
     balwalCol();
     cxt.clearRect(0, 0, frameWidth, frameHeight);
     drawBall()
+    if(extraLife){
+        drawHealth()
+        moveHealth()
+        barHealthCol()
+    }
+    
     drawBricks()
     drawBar()
     barCollision()

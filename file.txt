@@ -1,141 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-//control bar
-document.addEventListener("keydown", function(event){
-    //controller event
-    if(event.key == "ArrowRight"){
-        right = true
+        <title>Break Bricks</title>
+
+        <link rel="icon" type="image/x-icon" href="Images/favicon.png">
+        <!--StyleSheet-->
+        <link rel="stylesheet" href="CSS/bootstrap.css">
+        <link rel="stylesheet" href="CSS/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <!---->
+        <div class="container">
+            <!--Game-->
+            <div class="GameFrame">
+                <!--Canvas-->
+                <canvas id="wall" height="890" width="1000"></canvas>
+                <!--SartPage-->
+                <!-- <div class="startPage">
+                    <div class="row h-100 text-white align-items-center align-content-center">
+                        <!---->
+                        <div class="soundbtn">
+                            <button class="unmuted btn" id="soundbtn"><i class="fa-solid fa-volume-xmark" id="soundicon"></i></button>
+                        </div>
+                        <!---->
+                        <div class="Instructions">
+                            <h1 class="Title">
+                                <span>Break</span>
+                                <span>
+                                    Bric
+                                    <i class="fa-solid fa-bolt"></i>
+                                    ks
+                                </span>
+                            </h1>
+                            <p>
+                                please, follow this instructions to know how to play the game. press <i class="fa-solid fa-left-long"></i> to move the paddle to the left side, or press <i class="fa-solid fa-right-long"></i> to move the paddle to the right side. you have 3 lifes if you lose them all then you have to start the game and play again otherwise you will be transfered to the next level if you don't lose any life and win the game you will get a new life in the next level
+                            </p>
+                        </div>
+                        <!---->
+                        <div class="startingbtn d-flex justify-content-center">
+                            <button id="playbtn" class="btn">
+                                Start 
+                                <i class="fa-solid fa-chevron-right no-delay"></i>
+                                <i class="fa-solid fa-chevron-right delay-1"></i>
+                                <i class="fa-solid fa-chevron-right delay-2"></i>
+                            </button>
+                        </div>
+                        <!---->
+                        <div id="countdown">
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                </div> -->
+            </div>
+        </div>
+
+
+
+
+        <!--Script-->
+       
+       
+        <script src="JS/bootstrap.js"></script>
+        <script src="JS/main.js"></script>
+        <script src="JS/canv.js"></script>
+       
+    </body>
+</html>
+
+
+body
+{
+    background-color: black;
+}
+.GameFrame
+{
+    position: relative;
+}
+canvas
+{
+    /* width: 100%;
+    height: 100vh; */
+    display: flex;
+    background: url('https://img.freepik.com/free-vector/hand-drawn-bricks-background_1176-82.jpg?w=2000');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.startPage
+{
+    background-color: rgba(255, 255, 255, 0.094);
+    position: absolute;
+    inset: 0;
+}
+.soundbtn
+{
+    position: absolute;
+    top: 25px;
+    width: fit-content;
+    right: 25px;
+}
+.soundbtn .btn
+{
+    background-color: transparent;
+    border:none;
+    color: white;
+    font-size: 35px;
+}
+.Instructions
+{
+    text-align: center;
+    color:white;
+}
+.Instructions .Title
+{
+    backdrop-filter: blur(3px);
+    width: fit-content;
+    font-size: 84px;
+    margin: 0 auto 40px;
+    
+    -webkit-text-stroke: 1px #443d3d;
+    font-weight: 900;
+
+}
+.Instructions span:first-child , .Instructions span:last-child
+{
+    display: block;
+    background: -webkit-linear-gradient(#f54545, #770707);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}   
+.Instructions span:first-child
+{
+    transform: skew(-32deg,0deg);
+}
+.Instructions span:last-child
+{
+    transform: skew(-32deg,0deg);
+    font-size: 0.6em;
+    text-align: left;
+}
+.Instructions span i{
+    -webkit-text-fill-color: white;
+    transform: skew(-24deg,-10deg);
+    font-size: 30px;
+}
+.Instructions p
+{
+    font-size: 27px;
+    background-color: rgba(0, 0, 0, 0.241);
+    text-transform: capitalize;
+    backdrop-filter:blur(5px) ;
+    width: 50%;
+    margin: auto;
+    overflow-y: scroll;
+    height: 20rem;
+    line-height: 2;
+}
+.Instructions p i
+{
+    color: #443d3d;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+}
+p::-webkit-scrollbar
+{
+    color: beige;
+    background-color: rgba(0, 0, 0, 0.465);
+    border-radius:15px ;
+}
+p::-webkit-scrollbar-button
+{
+    height: 0;
+}
+p::-webkit-scrollbar-thumb
+{
+    color: white;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.795);
+}
+#playbtn
+{
+    margin-top: 40px;
+    padding: 12px 23px;
+    font-size: 27px;
+    cursor: pointer;
+    background-image: linear-gradient(45deg, rgb(125, 125, 125), rgb(208, 208, 208)),
+    linear-gradient(-30deg, hsl(0, 0%, 100%), hsl(0, 0%, 24%));
+    background-clip: padding-box, border-box;
+    background-origin: border-box;
+    font-weight: 700;
+    border: 3px solid transparent;
+    border-radius: 1.75rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+#playbtn::after{
+    content: "";
+    inset: 0;
+    width: 0;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.189);
+    z-index: -1;
+    transition: all 0.5s cubic-bezier(.5,1.6,.4,.7);
+}
+#playbtn:hover{
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.716);
+}
+#playbtn:hover::after{
+    width: 100%;
+}
+.no-delay , .delay-1 , .delay-2
+{
+    animation-name:GoOn ;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+.no-delay
+{
+    animation-delay: 0.5s;
+}
+.delay-1
+{
+    animation-delay: 0.4s;
+}
+.delay-2
+{
+    animation-delay: 0.3s;
+}
+#countdown
+{
+    position:absolute;
+    inset: 0;
+    background-color: #0000009d;
+    font-size: 80px;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    z-index: 10;
+}
+#countdown::after
+{
+    content:"";
+    position: absolute;
+    animation: counting 4s linear 0s  ;
+
+}
+/**/
+@keyframes GoOn{
+    0%{
+        transform: translateX(0px);
+        opacity: 0.9;
     }
-    else if(event.key == "ArrowLeft"){
-        left = true
+    20%{
+        transform: translateX(0px);
+        opacity: 0.8;
+    }
+    80%{
+        transform: translateX(0px);
+        opacity: 0.4;
+    }
+    100%{
+        opacity: 0.2;
+        transform: translateX(20px);
+    }
+}
+@keyframes counting{
+    25%{
+       content: "3";
+       transform: scale(2);
     }
 
-})
-document.addEventListener("keyup", function(event){
-    //controller event
-    if(event.key == "ArrowRight"){
-        right = false
-    }
-    else if(event.key == "ArrowLeft"){
-        left = false
-    }
-})
-
-
-///////////////////////////////// create  bricks ///////////////////////////////////////////
-
-
-
-const brick = {
-    row : 5,
-    column : 10,
-    width : 55,
-    height : 20,
-    offSetLeft :30,
-    offSetTop :30,
-    marginTop : 40,
-    fillColor :'black',
-    strokeColor : 'white'
+    50%{
+        opacity: 1;
+        content: "2";
+       transform: scale(1.5)
     }
     
-    let bricks =[];
-    
-    function createBricks(){
-        for(let r=0 ; r< brick.row ; r++){
-            bricks[r]=[];
-            for(let c=0 ; c< brick.column ; c++){
-                bricks[r][c]={
-                    x : c * (brick.offSetLeft + brick.width) + brick.offSetLeft ,
-                    y : r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop ,
-                    status : true
-    
-                }
-            }
-        }
+    75%{
+        opacity: 1;
+        content: "1";
+        transform: scale(2)
     }
-    
-    
-    
-    
-    function drawBricks (){
-        for(let r=0 ; r< brick.row ; r++){
-            for(let c=0 ; c< brick.column ; c++){
-               if(bricks[r][c].status){
-                  cxt.fillStyle = brick.fillColor;
-                  cxt.fillRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
-                  cxt.strokeStyle = brick.strokeColor;
-                  cxt.strokeRect(bricks[r][c].x, bricks[r][c].y, brick.width, brick.height);
-               }
-            }
-        }
+    100%{
+        opacity: 1;
+        content: "Go!";
+        transform: scale(1.5)
     }
-    ////////////// ///////////////////  create Ball //////////////////////////////////////
-    const ball = {
-        x: frameWidth/2,
-        y: bar.y - ballRadius,
-        radius:ballRadius,
-        speed:5,
-        dx:3,
-        dy:-3
-    }
-    function drawBall(){
-        cxt.beginPath();
-        cxt.arc(ball.x,ball.y,ball.radius,0,angle);
-        cxt.fillStyle = "red";
-        cxt.fill();
-        cxt.strokeStyle = "white";
-       // cxt.stroke();
-        cxt.lineWidth = 2; 
-        cxt.closePath();
-        }
-   
-        function moveBall(){
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-            
-        }
-        function balwalCol() {
-            if (ball.x + ball.radius > frameWidth || ball.x - ball.radius < 0) {
-              ball.dx = -ball.dx;
-            }
-            if (ball.y - ball.radius <= 0) {
-              ball.dy = -ball.dy;
-            }
-            if (ball.y + ball.radius >= frameHeight) {
-            //   life--;
-              resetBall();
-            }
-          }
-          function resetBall() {
-            ball.x = frameWidth / 2;
-            ball.y = bar.y - ball.radius;
-            ball.dx = 3 * (Math.random() * 2 - 1);
-            ball.dy = -3;
-          }
-        function draw(){
-            
-        }
-        
-        
-
-    //path()
-    createBricks();
-    var dx = 0
-    function loop() {
-
-
-        moveBall()
-
-        
-        
-        balwalCol();
-        cxt.clearRect(0, 0, frameWidth, frameHeight);
-        drawBall()
-        drawBricks()
-        drawBar()
-        barCollision()
-        update() 
-        requestAnimationFrame(loop)
-    }
-    
-    
-    loop()
+}

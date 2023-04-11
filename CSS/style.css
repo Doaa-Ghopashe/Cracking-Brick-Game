@@ -56,7 +56,7 @@ canvas
 {
     display: block;
     background: -webkit-linear-gradient(#f54545, #770707);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }   
 .Instructions span:first-child
