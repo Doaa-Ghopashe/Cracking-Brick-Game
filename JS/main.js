@@ -14,13 +14,11 @@ let frameWidth = gameFrame.width,
   //Ahmed declare this two variables
   left = false,
   right = false,
-  score = 0,
-  scoreUnit = 5,
   lvl = 1,
   extraLife = false,
   //Nourhan declare this variable
   bricks = [],
-  //Ahmaaa Declare this variables
+  //Ahmaaa94 Declare this variables
   arry = [],
   index = 1,
   fillArr = [
@@ -91,16 +89,14 @@ const soundbtn = document.getElementById("soundbtn"),
     fillColor: fil_1,
     brokColor: filBr_1,
     filUnBr: balPattern,
-    // strokeColor: "white",
   },
   ball = {
     x: frameWidth / 2,
     y: bar.y - ballRadius,
     radius: ballRadius,
+    dx:2,
+    dy: -2,
     fil: balPattern,
-    speed: 4,
-    dx: 3,
-    dy: -3,
   },
   health = {
     x: frameWidth / 2,
@@ -110,19 +106,9 @@ const soundbtn = document.getElementById("soundbtn"),
     dx: 2,
     dy: -1,
   };
-let randRow = Math.floor(Math.random()*brick.row);
-let randCol = Math.floor(Math.random()*brick.column);
+let randRow = Math.floor(Math.random() * brick.row);
+let randCol = Math.floor(Math.random() * brick.column);
 //--------------------------------------------------------Functions Declaration-----------------------------------------------------
-//function to draw the canvas frame
-function path() {
-  cxt.beginPath();
-  cxt.fillStyle = "rgba(0,0,0,0.3)";
-  cxt.strokeStyle = "rgba(0,0,0,0.2)";
-  cxt.lineWidth = 3;
-  cxt.strokeRect(0, 0, frameWidth, frameHeight);
-  cxt.fillRect(0, 0, frameWidth, frameHeight);
-  cxt.closePath();
-}
 //function play/pause sound
 function play_pasue() {
   if (!gameMusic.muted) {
@@ -153,9 +139,8 @@ function startGame() {
 }
 //function to draw the bar
 function drawBar() {
-  // BAR_W = 30
+ 
   cxt.fillStyle = brick.fillColor;
-  // lvl > 1 ? (bar.width = 30) : 0;
   cxt.fillRect(bar.x, bar.y, bar.width, bar.height);
 }
 //function to move the bar left and right
@@ -186,6 +171,7 @@ function createBricks() {
       };
       index++;
     }
+   
   }
   bricks[randRow][randCol].life = true;
 }
@@ -193,7 +179,7 @@ createBricks();
 // testing extralife
 //function to draw bricks
 function drawBricks() {
-  let newLvl = true;
+  
   for (let r = 0; r < brick.row; r++) {
     for (let c = 0; c < brick.column; c++) {
       if (bricks[r][c].status) {
@@ -205,7 +191,7 @@ function drawBricks() {
             brick.width,
             brick.height
           );
-        } else if (arry.includes(bricks[r][c].index)) {
+        } else {
           cxt.fillStyle = brick.filUnBr;
           cxt.fillRect(
             bricks[r][c].x,
@@ -214,39 +200,26 @@ function drawBricks() {
             brick.height
           );
         }
-        // newLvl = false;
-        // cxt.strokeStyle = brick.strokeColor;
-        // cxt.strokeRect(
-        //   bricks[r][c].x,
-        //   bricks[r][c].y,
-        //   brick.width,
-        //   brick.height
-        // );
+       
       }
     }
   }
-  // if (newLvl) {
-  //   lvl++;
-  //   randRow = Math.ceil(3 * Math.random());
-  //   randCol = Math.ceil(8 * Math.random());
-  //   createBricks();
-  // }
-  // console.log(lvl);
+
 }
 //function for the collision between the ball and the brick
 function balBricol() {
   for (let r = 0; r < brick.row; r++) {
     for (let c = 0; c < brick.column; c++) {
-      if (bricks[r][c].status) {
+      if (bricks[r][c].status) 
+      {
         if (
-          ball.x + ball.radius > bricks[r][c].x &&
-          ball.x - ball.radius < bricks[r][c].x + brick.width &&
+          ball.x > bricks[r][c].x &&
+          ball.x < bricks[r][c].x + brick.width &&
           ball.y + ball.radius > bricks[r][c].y &&
           ball.y - ball.radius < bricks[r][c].y + brick.height
         ) {
           ball.dy = -ball.dy;
           brickCollSound.play();
-          //(bricks[r][c].color == 'red')?bricks[r][c].status = false:bricks[r][c].color = 'red';
           if (arry.includes(bricks[r][c].index)) {
             bricks[r][c].cracked++;
           } else if (bricks[r][c].color == brick.brokColor) {
@@ -256,7 +229,27 @@ function balBricol() {
               extraLife = true;
             }
             bricks[r][c].status = false;
-            // score += scoreUnit;
+          } else {
+            bricks[r][c].color = brick.brokColor;
+          }
+        } 
+        else if (
+          ball.y < bricks[r][c].y + brick.height &&
+          ball.y > bricks[r][c].y &&
+          ball.x + ball.radius > bricks[r][c].x &&
+          ball.x - ball.radius < bricks[r][c].x + brick.width
+        ) {
+          ball.dx = -ball.dx;
+          brickCollSound.play();
+          if (arry.includes(bricks[r][c].index)) {
+            bricks[r][c].cracked++;
+          } else if (bricks[r][c].color == brick.brokColor) {
+            if (bricks[r][c].life) {
+              health.x = bricks[r][c].x + brick.width / 2;
+              health.y = bricks[r][c].y + brick.height;
+              extraLife = true;
+            }
+            bricks[r][c].status = false;
           } else {
             bricks[r][c].color = brick.brokColor;
           }
@@ -268,23 +261,17 @@ function balBricol() {
 //function to draw ball
 function drawBall() {
   cxt.beginPath();
+  cxt.fillStyle = balPattern;
   cxt.arc(ball.x, ball.y, ball.radius, 0, angle);
-  cxt.fillStyle = ball.fil;
   cxt.fill();
-  // cxt.strokeStyle = "white";
-  // cxt.stroke();
-  // cxt.lineWidth = 2;
   cxt.closePath();
 }
 //function to draw health
 function drawHealth() {
   cxt.beginPath();
   cxt.arc(health.x, health.y, health.radius, 0, angle);
-  cxt.fillStyle = filExtra;
+  cxt.fillStyle = "pink";
   cxt.fill();
-  // cxt.strokeStyle = "white";
-  // cxt.stroke();
-  // cxt.lineWidth = 2;
   cxt.closePath();
 }
 function moveHealth() {
@@ -304,7 +291,6 @@ function balwalCol() {
     ball.dy = -ball.dy;
   }
   if (ball.y + ball.radius >= frameHeight) {
-    //   life--;
     loseLife();
     resetBall();
     resetBar();
@@ -317,18 +303,7 @@ function barCollision() {
     ball.y - ball.radius <= bar.y + bar.height &&
     ball.x + ball.radius >= bar.x &&
     ball.x - ball.radius <= bar.x + bar.width;
-  let touchEdgeL =
-    ball.x + ball.radius >= bar.x && ball.y + ball.radius > bar.y;
-  //let touchEdgeR = (ball.x - ball.radius <= bar.x + bar.width) && ball.y +ball.radius > bar.y
-  // console.log(touchBar) ;
-  // console.log(bar.y);
   if (touchBar) {
-    if (touchEdgeL) {
-      // console.log(ball.dx);
-      ball.dx > 0 ? (ball.x = bar.x - 50) : (ball.x = bar.x + bar.width + 50);
-      ball.dx = -ball.dx;
-      return;
-    }
     bouncedSound.play();
     if (
       ball.x >= bar.x + bar.width / 3 &&
@@ -340,12 +315,10 @@ function barCollision() {
       //the first third of the bar
       ball.dx = (1 - (ball.x - bar.x) / bar.width) * -3;
       ball.dy = -ball.dy;
-      // console.log(ball.dx);
     } else {
       // the last third of the bar
       ball.dx = ((ball.x - bar.x) / bar.width) * 3;
       ball.dy = -ball.dy;
-      // console.log(ball.dx);
     }
   }
 }
@@ -364,13 +337,11 @@ function barHealthCol() {
 //function to reset the ball to its defualt position
 function resetBall() {
   ball.x = frameWidth / 2;
-  ball.y = bar.y - (ball.radius + 10);
-  ball.dx = 2 * (Math.random() * 2 - 1);
-  ball.dy = -2;
+  ball.y = bar.y - ball.radius - 50;
+  ball.dy = -ball.dy;
+
 }
-//function have no idea about its existing
-function draw() {}
-//
+
 function loop() {
   const dedX = bar.x;
   const dedY = bar.y;
@@ -379,7 +350,6 @@ function loop() {
 
   update();
   balBricol();
-  // cxt.clearRect(ballDedX - ball.radius, ballDedY - ball.radius, ball.radius*2, ball.radius*2) //to clear
   cxt.fillStyle = "rgba(0,0,0,0.3)";
   cxt.fillRect(
     ballDedX - ball.radius,
@@ -394,10 +364,7 @@ function loop() {
   cxt.fillStyle = "rgba(0,0,0,0.3)";
 
   cxt.fillRect(dedX, dedY, BAR_W, BAR_H);
-  //cxt.clearRect(dedX,dedY, BAR_W, BAR_H)
-  //cxt.strokeRect(dedX,dedY,BAR_W,BAR_H);
   moveBall();
-
   balwalCol();
   cxt.clearRect(0, 0, frameWidth, frameHeight);
   drawBall();
@@ -440,7 +407,7 @@ document.addEventListener("keyup", function (event) {
   }
 });
 //--------------------------------------------------------Calling Functions----------------------------------------------------------
-path();
+
 
 function rand(bk) {
   for (let i = 0; i < bk; i++) {
@@ -461,12 +428,15 @@ function rand_3() {
   return randNum;
 }
 function backChang() {
-  // let elem=document.getElementsByTagName('body');
   let x = rand_3();
   gameFrame.style.backgroundImage = "url(" + bks[x] + ")";
 }
 function resetBar() {
   bar.x = (frameWidth - bar.width) / 2;
+}
+function speedInc() {
+  ball.dx =  ball.dx*1.1;
+  ball.dy = ball.dy*1.1;
 }
 function lvlDon() {
   let lvlDone = true;
@@ -486,14 +456,14 @@ function lvlDon() {
         levels[9].setAttribute("src", "Images/star_.png");
         brick.row++;
         index = 1;
-        unBreak = 4;
+        unBreak = 3;
         rand(unBreak);
         backChang();
         indx = rand_2();
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -506,7 +476,7 @@ function lvlDon() {
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -521,7 +491,7 @@ function lvlDon() {
         unBreak = 6;
         rand(unBreak);
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -537,7 +507,7 @@ function lvlDon() {
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -552,7 +522,7 @@ function lvlDon() {
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -568,7 +538,7 @@ function lvlDon() {
         brick.brokColor = fillBrArr[indx];
         // rand(unBreak);
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -582,7 +552,7 @@ function lvlDon() {
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -596,7 +566,7 @@ function lvlDon() {
         brick.fillColor = fillArr[indx];
         brick.brokColor = fillBrArr[indx];
         createBricks();
-        ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -611,7 +581,7 @@ function lvlDon() {
         brick.brokColor = fillBrArr[indx];
         // rand(unBreak);
         createBricks();
-        // ball.speed += 0.5;
+        speedInc();
         resetBall();
         resetBar();
         break;
@@ -623,7 +593,7 @@ function lvlDon() {
   }
 }
 function addLife() {
-  let lifs = document.querySelectorAll("img[id='lif']");
+  // let lifs = document.querySelectorAll("img[id='lif']");
   let extraLife = document.createElement("img");
   extraLife.setAttribute("src", "images/love.png");
   extraLife.setAttribute("id", "lif");
@@ -636,7 +606,6 @@ function loseLife() {
   last.remove();
   let lifs = document.querySelectorAll("img[id='lif']");
   if (lifs.length == 0) {
-    // location.reload();
     gameOver();
   }
 }
